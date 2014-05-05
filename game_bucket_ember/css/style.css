@@ -1,1 +1,37 @@
-/* Put your CSS here */
+/* Put your CSS here
+
+dark: #081724
+#589494
+#8EBBB4
+#D0DCD0
+light(cream): #F5EED2;
+
+*/
+
+
+
+body {
+  background-color: #D0DCD0;
+  color: #081724;
+}
+
+.navbar {
+  background-color: #589494;
+  height: 2em;
+}
+
+.logo {
+  font-family: 'Gruppo', cursive;
+  color: #081724;
+  font-size: 40px;
+}
+
+.non-link {
+  color: #081724;
+}
+
+.non-link:hover {
+  text-decoration: none;
+  color: #081724;
+}
+
