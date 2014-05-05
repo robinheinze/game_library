@@ -72,6 +72,16 @@ App.GamesController = Ember.ArrayController.extend({
 
 });
 
+App.GameController = Ember.ObjectController.extend({
+  actions: {
+    markComplete: function() {
+      var model = this.get('model');
+      model.set('inProgress', false);
+      model.save;
+    }
+  }
+});
+
 App.GamesNewController = Ember.ObjectController.extend({
   actions: {
     createGame: function() {

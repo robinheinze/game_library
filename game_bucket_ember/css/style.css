@@ -16,9 +16,14 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.navbar-default .navbar-brand, .navbar, .navbar-default {
+  background-color: #589494;
+  color: #081724;
+}
+
 .navbar {
   background-color: #589494;
-  height: 2em;
+  color: #081724;
 }
 
 .logo {
@@ -27,11 +32,11 @@ body {
   font-size: 40px;
 }
 
-.non-link {
+.non-link:hover {
+  text-decoration: none;
   color: #081724;
 }
-
-.non-link:hover {
+.non-link:focus {
   text-decoration: none;
   color: #081724;
 }

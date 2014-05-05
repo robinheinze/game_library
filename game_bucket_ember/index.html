@@ -10,14 +10,11 @@
 </head>
 <body>
   <script type="text/x-handlebars" data-template-name='application'>
-    <nav class='navbar navbar-defaultnavbar-fixed-top'>
+    <nav class='navbar navbar-default'>
       <div class='container-fluid'>
         <div class='navbar-header'>
           {{#link-to 'index' class='logo navbar-brand non-link' tagName='a'}}The Game Bucket{{/link-to}}
         </div>
-        <ul class='nav navbar-nav navbar-right'>
-          <li>{{#link-to 'index' tagName='a' class='non-link'}}Action{{/link-to}}</li>
-        </ul>
       </div>
     </nav>
     <div class='container wrapper'>
@@ -141,6 +138,7 @@
           <p>Console: {{console}}</p>
           {{#if inProgress }}
           <p> Status: In Progress </p>
+          <button {{action markComplete}} class='btn btn-default'>Complete</button>
           {{else}}
           <p> Status: Complete! </p>
           {{/if}}
