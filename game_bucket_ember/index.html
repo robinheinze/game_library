@@ -50,7 +50,7 @@
       </li>
     {{/each}}
     </ul>
-    <div>{{#link-to 'games' class='btn btn-default' tagName='button'}}Browse Games{{/link-to}}</div>
+    <div>{{#link-to 'games' class='btn btn-default' tagName='button'}}Browse Games{{/link-to}} or {{#link-to 'games.new' tagName='button' class='btn btn-default'}}Add a Game{{/link-to}}</div>
   </script>
 
   <script type='text/x-handlebars' data-template-name='games'>
@@ -60,7 +60,7 @@
         {{#link-to 'games.complete' classNames='list-group-item'}}Complete{{/link-to}}
         {{#link-to 'games.incomplete' classNames='list-group-item'}}In Progress{{/link-to}}
         {{#link-to 'games.all' classNames='list-group-item'}}All{{/link-to}}
-      </div>
+        </div>
         <div class='list-group'>
           {{#each}}
             {{#link-to 'game' this classNames='list-group-item'}}
@@ -68,6 +68,7 @@
             {{/link-to}}
           {{/each}}
         </div>
+        {{#link-to 'games.new' tagName='button' class='btn btn-default'}}Add a Game{{/link-to}}
       </div>
       <div class='col-sm-9'>
         {{outlet}}
@@ -144,6 +145,28 @@
           <p> Status: Complete! </p>
           {{/if}}
         </div>
+      </div>
+    </div>
+  </script>
+
+  <script type='text/x-handlebars' data-template-name='games/new'>
+    <div class='row'>
+      <div class='col-sm-7 new_game'>
+      <h2>New Game</h2>
+        <label for='title'>Title</label>
+        {{input valueBinding='title' class='form-control'}}
+        <label for='description'>Description</label>
+        {{textarea valueBinding='description' class='form-control'}}
+        <label for='image'>Image URL</label>
+        {{input valueBinding='image' class='form-control'}}
+        <label for='year'>Year</label>
+        {{input valueBinding='year' class='form-control'}}
+        <label for='console'>Console</label>
+        {{input valueBinding='console' class='form-control'}}
+        <label for='company'>Company</label>
+        {{input valueBinding='company' class='form-control'}}
+        <br>
+        <button {{action 'createGame'}} class='btn btn-default'>Add Game</button>
       </div>
     </div>
   </script>

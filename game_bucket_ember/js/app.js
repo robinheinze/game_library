@@ -5,11 +5,11 @@ App = Ember.Application.create({
 App.Router.map(function() {
   this.route('index', {path: '/'}); //Ember will do this without having to specify, but i've included for clarity
   this.resource('games', function() {
-    this.resource('game', { path: '/:game_id'});
     this.route('complete');
     this.route('incomplete');
-
+    this.route('new')
     this.route('all');
+    this.resource('game', { path: '/:game_id'});
   });
 });
 
@@ -68,7 +68,35 @@ App.IndexController = Ember.ArrayController.extend({
 });
 
 App.GamesController = Ember.ArrayController.extend({
-  sortProperties: ['title']
+  sortProperties: ['title'],
+
+});
+
+App.GamesNewController = Ember.ObjectController.extend({
+  actions: {
+    createGame: function() {
+      var game = this.store.createRecord('game', {
+        title: this.get('title'),
+        description: this.get('description'),
+        image: this.get('image'),
+        year: this.get('year'),
+        console: this.get('console'),
+        company: this.get('company'),
+        inProgress: false
+      });
+      var controller = this;
+      game.save().then(function() {
+        controller.set('title', '');
+        controller.set('description', '');
+        controller.set('image', '');
+        controller.set('year', '');
+        controller.set('console', '');
+        controller.set('company', '');
+      });
+    }
+
+  }
+
 });
 
 //COMPONENTS

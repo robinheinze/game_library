@@ -14,6 +14,8 @@ A video game library developed with a standalone ember front end and connected t
 
 [+] As a user, I would like to see a detail page for each game
 
+[ ] As a user, I would like to indicate when I complete a game
+
 [ ] As a user, I would like to be able to add new games
 
 [ ] As a user, I would like to delete games from my collection
@@ -25,5 +27,7 @@ A video game library developed with a standalone ember front end and connected t
 [ ] As a user, I would like to upload photos with my games, instead of just linking to a url
 
 [ ] As a user, I would like to rate each game and and write a review
+
+
 
 
