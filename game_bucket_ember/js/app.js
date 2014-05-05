@@ -7,9 +7,11 @@ App.Router.map(function() {
   this.resource('games', function() {
     this.route('complete');
     this.route('incomplete');
-    this.route('new')
+    this.route('new');
     this.route('all');
-    this.resource('game', { path: '/:game_id'});
+    this.resource('game', { path: '/:game_id'}, function() {
+      this.route('edit');
+    });
   });
 });
 
@@ -57,6 +59,12 @@ App.GamesAllRoute = Ember.Route.extend({
   }
 });
 
+App.GameEditRoute = Ember.Route.extend({
+  model: function() {
+    return this.modelFor('game');
+  }
+});
+
 
 
 //CONTROLLERS
@@ -85,6 +93,7 @@ App.GameController = Ember.ObjectController.extend({
         this.transitionToRoute('games');
       }
     }
+
   }
 });
 
@@ -114,6 +123,20 @@ App.GamesNewController = Ember.ObjectController.extend({
 
   }
 
+});
+
+App.GameEditController = Ember.ObjectController.extend({
+  actions: {
+    updateGame: function() {
+      var model = this.get('model');
+      var controller = this;
+
+      model.save()
+      .then(function() {
+        controller.transitionToRoute('game', model);
+      });
+    }
+  }
 });
 
 //COMPONENTS

@@ -145,6 +145,7 @@
             <p> Status: Complete! </p>
             {{/if}}
             <button {{action deleteGame}} class='btn btn-default'>Delete</button>
+            {{#link-to 'game.edit' class='btn btn-default'}}Edit{{/link-to}}
           </div>
         </div>
         <div class='row'>
@@ -155,7 +156,23 @@
   </script>
 
   <script type='text/x-handlebars' data-template-name='game/edit'>
-
+    <div class='col-md-12'>
+      <h2>Edit {{title}}</h2>
+        <label for='title'>Title</label>
+        {{input valueBinding='title' class='form-control'}}
+        <label for='description'>Description</label>
+        {{textarea valueBinding='description' class='form-control'}}
+        <label for='image'>Image URL</label>
+        {{input valueBinding='image' class='form-control'}}
+        <label for='year'>Year</label>
+        {{input valueBinding='year' class='form-control'}}
+        <label for='console'>Console</label>
+        {{input valueBinding='console' class='form-control'}}
+        <label for='company'>Company</label>
+        {{input valueBinding='company' class='form-control'}}
+        <br>
+        <button {{action 'updateGame'}} class='btn btn-default'>Save</button>
+      </div>
   </script>
 
   <script type='text/x-handlebars' data-template-name='games/new'>
