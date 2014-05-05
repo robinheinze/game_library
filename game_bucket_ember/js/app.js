@@ -103,6 +103,7 @@ App.GamesNewController = Ember.ObjectController.extend({
         controller.set('console', '');
         controller.set('company', '');
       });
+      this.transitionToRoute('games');
     }
 
   }
