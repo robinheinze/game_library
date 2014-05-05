@@ -8,9 +8,9 @@ A video game library developed with a standalone ember front end and connected t
 
 ==User Stories
 
-[ ] As a user, I would like to be able to see a list of all of my games
+[+] As a user, I would like to be able to see a list of all of my games
 
-[ ] As a user, I would like to be able to see a list of my completed and in progress games
+[+] As a user, I would like to be able to see a list of my completed and in progress games
 
 [ ] As a user, I would like to see a detail page for each game
 

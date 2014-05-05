@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Game Bucket</title>
   <link href='http://fonts.googleapis.com/css?family=Gruppo' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -26,8 +27,10 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="index">
+    <h3>Welcome to Game Bucket, your personal video game library!</h3>
+    <h4>Here are a few games you are currently playing: </h4>
     <ul class = 'list-unstyled'>
-    {{#each}}
+    {{#each incomplete}}
       <li class = 'row'>
         <div class='col-sm-4'>
           <img {{bind-attr src='image'}}/>
@@ -37,11 +40,91 @@
           <p class='text-muted'>By {{company}}</p>
           <div>
             <p>{{description}}</p>
+            {{#if inProgress }}
+            <p> Status: In Progress </p>
+            {{else}}
+            <p> Status: Complete! </p>
+            {{/if}}
           </div>
         </div>
       </li>
     {{/each}}
     </ul>
+    <div>{{#link-to 'games' class='btn btn-default' tagName='button'}}Browse Games{{/link-to}}</div>
+  </script>
+
+  <script type='text/x-handlebars' data-template-name='games'>
+    <div class='row'>
+      <div class='col-sm-3'>
+        <div class='list-group'>
+        {{#link-to 'games.complete' classNames='list-group-item'}}Complete{{/link-to}}
+        {{#link-to 'games.incomplete' classNames='list-group-item'}}In Progress{{/link-to}}
+        {{#link-to 'games.all' classNames='list-group-item'}}All{{/link-to}}
+      </div>
+        <div class='list-group'>
+          {{#each}}
+            {{#link-to 'game' this classNames='list-group-item'}}
+              {{title}}
+            {{/link-to}}
+          {{/each}}
+        </div>
+      </div>
+      <div class='col-sm-9'>
+        {{outlet}}
+      </div>
+    </div>
+  </script>
+
+  <script type='text/x-handlebars' data-template-name='games/index'>
+    <ul class='list-unstyled'>
+      {{#each}}
+        {{partial 'game-details'}}
+      {{/each}}
+    </ul>
+  </script>
+
+  <script type='text/x-handlebars' data-template-name='games/complete'>
+    <ul class='list-unstyled'>
+      {{#each}}
+        {{partial 'game-details'}}
+      {{/each}}
+    </ul>
+  </script>
+
+  <script type='text/x-handlebars' data-template-name='games/incomplete'>
+    <ul class='list-unstyled'>
+      {{#each}}
+        {{partial 'game-details'}}
+      {{/each}}
+    </ul>
+  </script>
+
+   <script type='text/x-handlebars' data-template-name='games/all'>
+    <ul class='list-unstyled'>
+      {{#each}}
+        {{partial 'game-details'}}
+      {{/each}}
+    </ul>
+  </script>
+
+  <script type='text/x-handlebars' data-template-name='_game-details'>
+    <li class = 'row'>
+      <div class='col-sm-4'>
+        <img {{bind-attr src='image' class='img-responsive'}}/>
+      </div>
+      <div class='col-sm-8'>
+        <h4>{{title}} ({{year}})</h4>
+        <p class='text-muted'>By {{company}}</p>
+        <div>
+          <p>{{description}}</p>
+          {{#if inProgress }}
+          <p> Status: In Progress </p>
+          {{else}}
+          <p> Status: Complete! </p>
+          {{/if}}
+        </div>
+      </div>
+    </li>
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>

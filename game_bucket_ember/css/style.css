@@ -13,6 +13,7 @@ light(cream): #F5EED2;
 body {
   background-color: #D0DCD0;
   color: #081724;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .navbar {
@@ -33,5 +34,9 @@ body {
 .non-link:hover {
   text-decoration: none;
   color: #081724;
+}
+
+.active {
+  background-color: #589494;
 }
 

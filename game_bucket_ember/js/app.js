@@ -4,6 +4,12 @@ App = Ember.Application.create({
 
 App.Router.map(function() {
   this.route('index', {path: '/'}); //Ember will do this without having to specify, but i've included for clarity
+  this.resource('games', function() {
+    this.route('complete');
+    this.route('incomplete');
+    this.resource('game', { path: '/:game_id'});
+    this.route('all');
+  });
 });
 
 //ROUTES
@@ -14,12 +20,57 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
+App.GamesRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.findAll('game');
+  }
+});
+
+App.GamesCompleteRoute = Ember.Route.extend({
+  model: function() {
+    return this.modelFor('games').filterBy('inProgress', false);
+  }
+});
+
+App.GamesIncompleteRoute = Ember.Route.extend({
+  model: function() {
+    return this.modelFor('games').filterBy('inProgress');
+  }
+});
+
+App.GamesIndexRoute = Ember.Route.extend({
+  model: function() {
+    return this.modelFor('games');
+  }
+});
+
+App.GamesAllRoute = Ember.Route.extend({
+  model: function() {
+    return this.modelFor('games');
+  }
+});
+
+
+
 //CONTROLLERS
+App.IndexController = Ember.ArrayController.extend({
+  gamesCount: Ember.computed.alias('length'),
+  incomplete: function() {
+    return this.filterBy('inProgress').slice(0,3);
+  }.property('@each.inProgress')
+});
+
+App.GamesController = Ember.ArrayController.extend({
+  sortProperties: ['title']
+});
+
+//COMPONENTS
 
 
 //MODELS
 
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
+
 App.Game = DS.Model.extend({
   title: DS.attr('string'),
   description: DS.attr('string'),
@@ -27,7 +78,7 @@ App.Game = DS.Model.extend({
   year: DS.attr('number'),
   console: DS.attr('string'),
   company: DS.attr('string'),
-  isCompleted: DS.attr('boolean')
+  inProgress: DS.attr('boolean')
 });
 
 App.Game.FIXTURES = [
@@ -39,7 +90,7 @@ App.Game.FIXTURES = [
     year: 2007,
     console: 'Xbox',
     company: 'Ubisoft',
-    isCompleted: true
+    inProgress: false
   },
   {
     id: 2,
@@ -49,7 +100,7 @@ App.Game.FIXTURES = [
     year: 2007,
     console: 'Xbox',
     company: 'Valve',
-    isCompleted: true
+    inProgress: false
   },
   {
     id: 3,
@@ -59,6 +110,6 @@ App.Game.FIXTURES = [
     year: 2012,
     console: 'Xbox',
     company: '343 Industries',
-    isCompleted: false
+    inProgress: true
   }
 ]
