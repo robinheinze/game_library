@@ -5,9 +5,10 @@ App = Ember.Application.create({
 App.Router.map(function() {
   this.route('index', {path: '/'}); //Ember will do this without having to specify, but i've included for clarity
   this.resource('games', function() {
+    this.resource('game', { path: '/:game_id'});
     this.route('complete');
     this.route('incomplete');
-    this.resource('game', { path: '/:game_id'});
+
     this.route('all');
   });
 });
@@ -23,6 +24,12 @@ App.IndexRoute = Ember.Route.extend({
 App.GamesRoute = Ember.Route.extend({
   model: function() {
     return this.store.findAll('game');
+  }
+});
+
+App.GameRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('game', params.game_id)
   }
 });
 
