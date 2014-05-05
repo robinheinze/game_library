@@ -82,7 +82,7 @@ App.GamesNewController = Ember.ObjectController.extend({
         year: this.get('year'),
         console: this.get('console'),
         company: this.get('company'),
-        inProgress: false
+        inProgress: true
       });
       var controller = this;
       game.save().then(function() {

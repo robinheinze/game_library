@@ -36,7 +36,21 @@ body {
   color: #081724;
 }
 
-.active {
+.list-group > a.active {
   background-color: #589494;
+  border-color: #589494;
+  color: white;
+}
+
+.list-group > a.active:hover {
+  background-color: #589494;
+  border-color: #589494;
+  color: white;
+}
+
+.list-group > a.active:focus {
+  background-color: #589494;
+  border-color: #589494;
+  color: white;
 }
 
