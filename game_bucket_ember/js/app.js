@@ -85,7 +85,7 @@ App.GameController = Ember.ObjectController.extend({
     markComplete: function() {
       var model = this.get('model');
       model.set('inProgress', false);
-      model.save;
+      model.save();
     },
     deleteGame: function() {
       if(confirm('Are you sure?')) {
