@@ -117,6 +117,16 @@
     </ul>
   </script>
 
+  <script type='text/x-handlebars' data-template-name='search_results'>
+  <ul class='list-unstyled'>
+    {{#each}}
+      {{partial 'game-details'}}
+    {{else}}
+      <p>No games match your search.</p>
+    {{/each}}
+  </ul>
+  </script>
+
   <script type='text/x-handlebars' data-template-name='_game-details'>
     <li class = 'row'>
       <div class='col-sm-4'>

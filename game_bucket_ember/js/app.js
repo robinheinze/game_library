@@ -9,6 +9,8 @@ App.Router.map(function() {
     this.route('incomplete');
     this.route('new');
     this.route('all');
+    this.route('search');
+    this.resource('search_results', {path: '/search/:search'});
     this.resource('game', { path: '/:game_id'}, function() {
       this.route('edit');
     });
@@ -19,6 +21,17 @@ App.Router.map(function() {
 
 App.IndexRoute = Ember.Route.extend({
   model: function() {
+    return this.store.findAll('game');
+  }
+});
+
+App.SearchResultsRoute = Ember.Route.extend({
+  model: function(params) {
+    adapter = this.container.lookup('adapter:application');
+    results = Ember.$.get('http://localhost:3000/games/search/'+params.search).then(function(response) {
+      console.log(response);
+    });
+    debugger;
     return this.store.findAll('game');
   }
 });
@@ -68,6 +81,25 @@ App.GameEditRoute = Ember.Route.extend({
 
 
 //CONTROLLERS
+App.SearchResultsController = Ember.ArrayController.extend({
+  // searchResults: function(keyword) {
+  //   var results = [];
+  //   var controller = this;
+  //   var adapter = this.container.lookup('adapter:application');
+  //   debugger;
+  //   adapter.ajax('/games/search/assassin', 'GET')
+  //     .then(function(response) {
+  //       debugger;
+  //       results = response;
+  //     });
+  //   return results;
+  // }.property(),
+  // searchUrl: function(keyword) {
+  //   return 'http://localhost:3000/games/search/'+keyword
+  // }
+});
+
+
 App.IndexController = Ember.ArrayController.extend({
   gamesCount: Ember.computed.alias('length'),
   incomplete: function() {
@@ -144,13 +176,12 @@ App.GameEditController = Ember.ObjectController.extend({
 
 //MODELS
 
+// App.Store.prototype.adapter.ajax('/games/search/'+search,'GET')
+
+
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-  host: 'http://localhost:3000',
-
-  buildURL: function(record, suffix) {
-    return this._super(record, suffix) + ".json";
-  }
+  host: 'http://localhost:3000'
 });
 
 App.Game = DS.Model.extend({
