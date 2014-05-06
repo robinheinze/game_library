@@ -144,18 +144,9 @@ App.GameEditController = Ember.ObjectController.extend({
 
 //MODELS
 
-//App.ApplicationAdapter = DS.FixtureAdapter.extend();
-
-$.ajaxSetup({
-  crossDomain: true,
-  xhrFields: {
-    withCredentials: true
-  }
-});
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   host: 'http://localhost:3000',
-  corsWithCredentials: true,
 
   buildURL: function(record, suffix) {
     return this._super(record, suffix) + ".json";
