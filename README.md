@@ -38,6 +38,8 @@ Ember app should be run on http://localhost:4000 with the serve gem, and the rai
 
 [ ] As a user, I want to compare my games to my friends games
 
+[ ] As a user, I want to access my game library via the internet anytime
+
 
 
 
