@@ -30,6 +30,10 @@ A video game library developed with a standalone ember front end and connected t
 
 [ ] As a user, I would like to rate each game and and write a review
 
+[ ] As a user, I want to be able to make an account
+
+[ ] As a user, I want to compare my games to my friends games
+
 
 
 
