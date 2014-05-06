@@ -4,6 +4,8 @@
 
 A video game library developed with a standalone ember front end and connected to a rails backend using the RESTful API. Created for the purpose of getting more comfortable with ember and how to connect it to a separate rails backend.
 
+Ember app should be run on http://localhost:4000 with the serve gem, and the rails API should reside on http://localhost:3000
+
 ===========================================
 
 ==User Stories
