@@ -22,7 +22,7 @@ A video game library developed with a standalone ember front end and connected t
 
 [+] As a user, I would like to edit information about my game
 
-[ ] As a user, I would like the games I add to be saved between sessions
+[+] As a user, I would like the games I add to be saved between sessions
 
 [ ] As a user, I would like to search for games in my collection
 
