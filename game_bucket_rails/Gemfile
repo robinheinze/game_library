@@ -12,3 +12,10 @@ gem 'active_model_serializers'
 gem 'handlebars_assets'
 gem 'rack-cors', :require => 'rack/cors'
 
+group :test, :development do
+  gem 'rspec-rails'
+  gem 'pry'
+  gem 'shoulda-matchers'
+  gem 'better_errors'
+end
+
