@@ -10,4 +10,5 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
 gem 'active_model_serializers'
 gem 'handlebars_assets'
+gem 'rack-cors', :require => 'rack/cors'
 
