@@ -9,11 +9,12 @@ App.Router.map(function() {
     this.route('incomplete');
     this.route('new');
     this.route('all');
-    this.route('search');
-    this.resource('search_results', {path: '/search/:search'});
     this.resource('game', { path: '/:game_id'}, function() {
       this.route('edit');
     });
+  });
+  this.resource('search', {path: '/searches/:search_id'}, function() {
+    this.route('results')
   });
 });
 
@@ -21,17 +22,6 @@ App.Router.map(function() {
 
 App.IndexRoute = Ember.Route.extend({
   model: function() {
-    return this.store.findAll('game');
-  }
-});
-
-App.SearchResultsRoute = Ember.Route.extend({
-  model: function(params) {
-    adapter = this.container.lookup('adapter:application');
-    results = Ember.$.get('http://localhost:3000/games/search/'+params.search).then(function(response) {
-      console.log(response);
-    });
-    debugger;
     return this.store.findAll('game');
   }
 });
@@ -78,38 +68,48 @@ App.GameEditRoute = Ember.Route.extend({
   }
 });
 
+App.SearchRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('search', params.search_id)
+  }
+});
+
+App.SearchResultsRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.findAll('game');
+  }
+});
+
 
 
 //CONTROLLERS
-App.SearchResultsController = Ember.ArrayController.extend({
-  // searchResults: function(keyword) {
-  //   var results = [];
-  //   var controller = this;
-  //   var adapter = this.container.lookup('adapter:application');
-  //   debugger;
-  //   adapter.ajax('/games/search/assassin', 'GET')
-  //     .then(function(response) {
-  //       debugger;
-  //       results = response;
-  //     });
-  //   return results;
-  // }.property(),
-  // searchUrl: function(keyword) {
-  //   return 'http://localhost:3000/games/search/'+keyword
-  // }
+App.ApplicationController = Ember.Controller.extend({
+  actions: {
+    createSearch: function() {
+      var search = this.store.createRecord('search', {
+        keyword: this.get('keyword')
+      });
+      var controller = this;
+      var _self = self;
+      search.save().then(function() {
+        controller.set('keyword', '')
+        controller.transitionToRoute('search.results', search)
+      });
+    }
+  }
 });
-
 
 App.IndexController = Ember.ArrayController.extend({
   gamesCount: Ember.computed.alias('length'),
   incomplete: function() {
     return this.filterBy('inProgress').slice(0,3);
   }.property('@each.inProgress')
+
+
 });
 
 App.GamesController = Ember.ArrayController.extend({
   sortProperties: ['title'],
-
 });
 
 App.GameController = Ember.ObjectController.extend({
@@ -171,14 +171,28 @@ App.GameEditController = Ember.ObjectController.extend({
   }
 });
 
+App.SearchController = Ember.ObjectController.extend({
+
+});
+
+App.SearchResultsController = Ember.ArrayController.extend({
+  needs: ['search'],
+  search: Ember.computed.alias("controllers.search"),
+  matches: function() {
+    var searchController = this.get('controllers.search');
+    regex = new RegExp(searchController.get('model').get('keyword'))
+    return this.filter(function(game) {
+      return regex.test(game.get('title')) || regex.test(game.get('description'));
+    });
+  }.property('needs')
+});
+
+
+
 //COMPONENTS
 
 
 //MODELS
-
-// App.Store.prototype.adapter.ajax('/games/search/'+search,'GET')
-
-
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   host: 'http://localhost:3000'
@@ -194,35 +208,12 @@ App.Game = DS.Model.extend({
   inProgress: DS.attr('boolean')
 });
 
-App.Game.FIXTURES = [
-  {
-    id: 1,
-    description: 'A historical fiction action-adventure open world stealth video game that follows Desmond as he lives the life of an assassin during the Third Crusade through the eyes of his ancestor Altair.',
-    title: "Assassin's Creed",
-    image: 'http://fc06.deviantart.net/fs71/f/2011/202/f/8/assassin__s_creed_game_icon_by_wolfangraul-d418pbu.png',
-    year: 2007,
-    console: 'Xbox',
-    company: 'Ubisoft',
-    inProgress: false
-  },
-  {
-    id: 2,
-    title: "Portal",
-    description: 'A first-person puzzle-platform game that follows a test subject wielding an Aperture Science Handheld Portal Device around Aperture Science laboratories shooting portals and teleporting through them to solve puzzles.',
-    image: 'http://imgttg.com/user/avatar/892922_85114.png',
-    year: 2007,
-    console: 'Xbox',
-    company: 'Valve',
-    inProgress: false
-  },
-  {
-    id: 3,
-    title: 'Halo 4',
-    description: 'An online first-person shooter video game set in a futuristic science fiction setting where players are responsible for defending humanity from the Covenant (aliens).',
-    image: 'http://d1vr6n66ssr06c.cloudfront.net/wp-content/themes/egmnowv3/images/icons/Halo-4.png',
-    year: 2012,
-    console: 'Xbox',
-    company: '343 Industries',
-    inProgress: true
-  }
-]
+App.Search = DS.Model.extend({
+  keyword: DS.attr('string'),
+  games: DS.hasMany('game', { async: true })
+});
+
+// App.store.adapter.serializer.map("App.Game", {
+//   games: { embedded: 'load' }
+// });
+

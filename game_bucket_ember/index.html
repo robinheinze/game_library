@@ -16,8 +16,8 @@
           {{#link-to 'index' class='logo navbar-brand non-link' tagName='a'}}The Game Bucket{{/link-to}}
         </div>
         <form class="navbar-form navbar-right" role="search">
-          <input type="text" class="form-control" placeholder="Search">
-          <button type="submit" class="btn btn-default">Submit</button>
+          {{input valueBinding='keyword' class="form-control" placeholder="Search"}}
+          <button {{action createSearch}} class="btn btn-default">Submit</button>
         </form>
       </div>
     </nav>
@@ -117,16 +117,6 @@
     </ul>
   </script>
 
-  <script type='text/x-handlebars' data-template-name='search_results'>
-  <ul class='list-unstyled'>
-    {{#each}}
-      {{partial 'game-details'}}
-    {{else}}
-      <p>No games match your search.</p>
-    {{/each}}
-  </ul>
-  </script>
-
   <script type='text/x-handlebars' data-template-name='_game-details'>
     <li class = 'row'>
       <div class='col-sm-4'>
@@ -218,6 +208,21 @@
       </div>
     </div>
   </script>
+
+  <script type='text/x-handlebars' data-template-name='search'>
+    {{outlet}}
+  </script>
+
+  <script type='text/x-handlebars' data-template-name='search/results'>
+  <ul class='list-unstyled'>
+    {{#each matches}}
+      {{partial 'game-details'}}
+    {{else}}
+      <p>No games matched your search :(</p>
+    {{/each}}
+    </ul>
+  </script>
+
 
   <script src="js/libs/jquery-1.10.2.js"></script>
   <script src="js/libs/handlebars-1.1.2.js"></script>

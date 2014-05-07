@@ -34,11 +34,6 @@ class GamesController < ApplicationController
     head :no_content
   end
 
-  def search
-    @games = Game.search params[:search]
-    render :json => @games
-  end
-
 private
 
   def game_params
