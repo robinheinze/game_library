@@ -13,7 +13,7 @@ App.Router.map(function() {
       this.route('edit');
     });
   });
-  this.resource('results', {path: 'searches/:search_id/results'});
+  this.route('results', {path: 'search/:keyword'});
 });
 
 //ROUTES
@@ -26,7 +26,7 @@ App.IndexRoute = Ember.Route.extend({
 
 App.GamesRoute = Ember.Route.extend({
   model: function() {
-    return this.store.findAll('game');
+    return this.store.find('game');
   }
 });
 
@@ -68,7 +68,7 @@ App.GameEditRoute = Ember.Route.extend({
 
 App.ResultsRoute = Ember.Route.extend({
   model: function(params) {
-    return this.store.find('result', {search_id: params.search_id});
+    return this.store.find('game', {keyword: params.keyword});
   }
 })
 
@@ -78,15 +78,9 @@ App.ResultsRoute = Ember.Route.extend({
 App.ApplicationController = Ember.Controller.extend({
   actions: {
     createSearch: function() {
-      var search = this.store.createRecord('search', {
-        keyword: this.get('keyword')
-      });
-      var controller = this;
-      var _self = self;
-      search.save().then(function() {
-        controller.set('keyword', '')
-        controller.transitionToRoute('/searches/'+search.id+'/results')
-      });
+      var temp = this.get('keyword');
+      this.set('keyword', '')
+      this.transitionToRoute('/search/'+temp )
     }
   }
 });
@@ -166,10 +160,6 @@ App.GameEditController = Ember.ObjectController.extend({
 
 
 //MODELS
-// DS.RESTAdapter.configure('App.Result', {
-//   sideloadsAs: 'results'
-// });
-
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   host: 'http://localhost:3000'
@@ -183,22 +173,6 @@ App.Game = DS.Model.extend({
   year: DS.attr('number'),
   console: DS.attr('string'),
   company: DS.attr('string'),
-  inProgress: DS.attr('boolean'),
-  results: DS.hasMany('result')
+  inProgress: DS.attr('boolean')
 });
-
-App.Search = DS.Model.extend({
-  keyword: DS.attr('string'),
-  results: DS.hasMany('result')
-});
-
-App.Result = DS.Model.extend({
-  game_id: DS.attr('number'),
-  search_id: DS.attr('number')
-});
-
-
-// App.store.adapter.serializer.map("App.Game", {
-//   games: { embedded: 'load' }
-// });
 

@@ -212,9 +212,9 @@
 
   <script type='text/x-handlebars' data-template-name='results'>
     <h3>Search Results</h3>
-    <ul>
+    <ul class='list-unstyled'>
       {{#each}}
-        <li><p>{{game_id}}</p></li>
+        <li><p>{{partial 'game-details'}}</p></li>
       {{else}}
         <li><p class='text-muted'><em>No games matched your search :(</em></p></li>
       {{/each}}

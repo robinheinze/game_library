@@ -1,6 +1,9 @@
 class GamesController < ApplicationController
   def index
     @games = Game.all
+    if params[:keyword]
+      @games = Game.search(params[:keyword])
+    end
     render :json => @games
   end
 
