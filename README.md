@@ -26,7 +26,7 @@ Ember app should be run on http://localhost:4000 with the serve gem, and the rai
 
 [+] As a user, I would like the games I add to be saved between sessions
 
-[ ] As a user, I would like to search for games in my collection
+[+] As a user, I would like to search for games in my collection
 
 [ ] As a user, I would like to view games by genre
 

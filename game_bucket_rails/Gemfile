@@ -17,5 +17,6 @@ group :test, :development do
   gem 'pry'
   gem 'shoulda-matchers'
   gem 'better_errors'
+  gem 'capybara-rspec'
 end
 
