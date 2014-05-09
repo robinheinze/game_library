@@ -85,7 +85,7 @@ App.ApplicationController = Ember.Controller.extend({
       var _self = self;
       search.save().then(function() {
         controller.set('keyword', '')
-        controller.transitionTo('/searches/'+search.id+'/results')
+        controller.transitionToRoute('/searches/'+search.id+'/results')
       });
     }
   }
