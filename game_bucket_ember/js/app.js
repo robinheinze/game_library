@@ -161,10 +161,15 @@ App.GameEditController = Ember.ObjectController.extend({
 });
 
 
+
 //COMPONENTS
 
 
 //MODELS
+// DS.RESTAdapter.configure('App.Result', {
+//   sideloadsAs: 'results'
+// });
+
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   host: 'http://localhost:3000'
@@ -178,17 +183,18 @@ App.Game = DS.Model.extend({
   year: DS.attr('number'),
   console: DS.attr('string'),
   company: DS.attr('string'),
-  inProgress: DS.attr('boolean')
+  inProgress: DS.attr('boolean'),
+  results: DS.hasMany('result')
 });
 
 App.Search = DS.Model.extend({
   keyword: DS.attr('string'),
-  results: DS.hasMany('result', {embedded: 'always'})
+  results: DS.hasMany('result')
 });
 
 App.Result = DS.Model.extend({
-  game: DS.belongsTo('game', {asnyc: true}),
-  search: DS.belongsTo('search', {async: true})
+  game_id: DS.attr('number'),
+  search_id: DS.attr('number')
 });
 
 

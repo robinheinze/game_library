@@ -213,8 +213,8 @@
   <script type='text/x-handlebars' data-template-name='results'>
     <h3>Search Results</h3>
     <ul>
-      {{#each result in model }}
-        <li><p>{{result.game_id}}</p></li>
+      {{#each}}
+        <li><p>{{game_id}}</p></li>
       {{else}}
         <li><p class='text-muted'><em>No games matched your search :(</em></p></li>
       {{/each}}
