@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe Game do
-  it { should have_and_belong_to_many :searches }
+  it { should have_many :searches }
+  it { should have_many :results }
+
   it 'can search by title' do
     test_game = Game.create(:title => 'stuff')
     Game.search('stuf').should eq [test_game]

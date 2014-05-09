@@ -1,5 +1,6 @@
 class Game < ActiveRecord::Base
-  has_and_belongs_to_many :searches
+  has_many :results
+  has_many :searches, :through => :results
 
   def self.search(search)
     search_condition = "%" + search + "%"

@@ -13,9 +13,7 @@ App.Router.map(function() {
       this.route('edit');
     });
   });
-  this.resource('search', {path: '/searches/:search_id'}, function() {
-    this.route('results')
-  });
+  this.resource('results', {path: 'searches/:search_id/results'});
 });
 
 //ROUTES
@@ -68,17 +66,11 @@ App.GameEditRoute = Ember.Route.extend({
   }
 });
 
-App.SearchRoute = Ember.Route.extend({
+App.ResultsRoute = Ember.Route.extend({
   model: function(params) {
-    return this.store.find('search', params.search_id)
+    return this.store.find('result', {search_id: params.search_id});
   }
-});
-
-App.SearchResultsRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.findAll('game');
-  }
-});
+})
 
 
 
@@ -93,7 +85,7 @@ App.ApplicationController = Ember.Controller.extend({
       var _self = self;
       search.save().then(function() {
         controller.set('keyword', '')
-        controller.transitionToRoute('search.results', search)
+        controller.transitionTo('/searches/'+search.id+'/results')
       });
     }
   }
@@ -104,8 +96,6 @@ App.IndexController = Ember.ArrayController.extend({
   incomplete: function() {
     return this.filterBy('inProgress').slice(0,3);
   }.property('@each.inProgress')
-
-
 });
 
 App.GamesController = Ember.ArrayController.extend({
@@ -162,7 +152,6 @@ App.GameEditController = Ember.ObjectController.extend({
     updateGame: function() {
       var model = this.get('model');
       var controller = this;
-
       model.save()
       .then(function() {
         controller.transitionToRoute('game', model);
@@ -170,23 +159,6 @@ App.GameEditController = Ember.ObjectController.extend({
     }
   }
 });
-
-App.SearchController = Ember.ObjectController.extend({
-
-});
-
-App.SearchResultsController = Ember.ArrayController.extend({
-  needs: ['search'],
-  search: Ember.computed.alias("controllers.search"),
-  matches: function() {
-    var searchController = this.get('controllers.search');
-    regex = new RegExp(searchController.get('model').get('keyword'))
-    return this.filter(function(game) {
-      return regex.test(game.get('title')) || regex.test(game.get('description'));
-    });
-  }.property('needs')
-});
-
 
 
 //COMPONENTS
@@ -197,6 +169,7 @@ App.SearchResultsController = Ember.ArrayController.extend({
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   host: 'http://localhost:3000'
 });
+
 
 App.Game = DS.Model.extend({
   title: DS.attr('string'),
@@ -210,8 +183,14 @@ App.Game = DS.Model.extend({
 
 App.Search = DS.Model.extend({
   keyword: DS.attr('string'),
-  games: DS.hasMany('game', { async: true })
+  results: DS.hasMany('result', {embedded: 'always'})
 });
+
+App.Result = DS.Model.extend({
+  game: DS.belongsTo('game', {asnyc: true}),
+  search: DS.belongsTo('search', {async: true})
+});
+
 
 // App.store.adapter.serializer.map("App.Game", {
 //   games: { embedded: 'load' }

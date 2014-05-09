@@ -209,19 +209,18 @@
     </div>
   </script>
 
-  <script type='text/x-handlebars' data-template-name='search'>
-    {{outlet}}
-  </script>
 
-  <script type='text/x-handlebars' data-template-name='search/results'>
-  <ul class='list-unstyled'>
-    {{#each matches}}
-      {{partial 'game-details'}}
-    {{else}}
-      <p>No games matched your search :(</p>
-    {{/each}}
+  <script type='text/x-handlebars' data-template-name='results'>
+    <h3>Search Results</h3>
+    <ul>
+      {{#each result in model }}
+        <li><p>{{result.game_id}}</p></li>
+      {{else}}
+        <li><p class='text-muted'><em>No games matched your search :(</em></p></li>
+      {{/each}}
     </ul>
   </script>
+
 
 
   <script src="js/libs/jquery-1.10.2.js"></script>

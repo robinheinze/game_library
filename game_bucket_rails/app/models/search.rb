@@ -1,10 +1,11 @@
 class Search < ActiveRecord::Base
-  has_and_belongs_to_many :games
+  has_many :results
+  has_many :games, :through => :results
 
   def get_results
-    results = Game.search(self.keyword)
-    results.each do |result|
-      self.games << result
+    matches = Game.search(self.keyword)
+    matches.each do |match|
+      Result.create(:game_id => match.id, :search_id => self.id)
     end
     self.games
   end
